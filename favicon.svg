@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Letterbind">
+  <title>Letterbind</title>
+  <defs>
+    <linearGradient id="walnut" x1="0" y1="0" x2="0.18" y2="1">
+      <stop offset="0" stop-color="#3d2718"/>
+      <stop offset="0.44" stop-color="#2b1b10"/>
+      <stop offset="1" stop-color="#180f08"/>
+    </linearGradient>
+    <radialGradient id="candle" cx="50%" cy="8%" r="72%">
+      <stop offset="0" stop-color="#ffc468" stop-opacity="0.34"/>
+      <stop offset="0.55" stop-color="#ffa842" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#ff8c28" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="plate"><rect x="0" y="0" width="512" height="512" rx="96"/></clipPath>
+    <linearGradient id="mantle" x1="30%" y1="4%" x2="72%" y2="100%">
+      <stop offset="0" stop-color="#9a76cf"/>
+      <stop offset="0.52" stop-color="#7a56ad"/>
+      <stop offset="1" stop-color="#553673"/>
+    </linearGradient>
+    <linearGradient id="armFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8763ba"/>
+      <stop offset="1" stop-color="#66458f"/>
+    </linearGradient>
+    <radialGradient id="belly" cx="50%" cy="42%" r="58%">
+      <stop offset="0" stop-color="#c3a9e2" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#c3a9e2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ground" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#000" stop-opacity="0.42"/>
+      <stop offset="0.62" stop-color="#000" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#f0899f" stop-opacity="0.78"/>
+      <stop offset="1" stop-color="#e8899f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g clip-path="url(#plate)">
+    <rect x="0" y="0" width="512" height="512" rx="96" fill="url(#walnut)"/>
+    <g fill="#000" fill-opacity="0.11">
+      <rect x="28" y="0" width="9" height="512"/><rect x="96" y="0" width="6" height="512"/>
+      <rect x="188" y="0" width="10" height="512"/><rect x="286" y="0" width="7" height="512"/>
+      <rect x="372" y="0" width="9" height="512"/><rect x="452" y="0" width="6" height="512"/>
+    </g>
+    <rect x="0" y="0" width="512" height="512" fill="url(#candle)"/>
+
+  <rect x="36" y="36" width="440" height="440" rx="52" fill="none" stroke="#c9922f" stroke-opacity="0.62" stroke-width="7"/>
+  <rect x="43" y="43" width="426" height="426" rx="46" fill="none" stroke="#ffd9a0" stroke-opacity="0.14" stroke-width="2"/>
+
+  <g transform="translate(51.00 87.60) scale(2.05)">
+    <g fill="none" stroke-linecap="round" stroke="#5b3b7a" stroke-width="15">
+      <path d="M78 128c-4 9-6 15-7 21"/>
+      <path d="M122 128c4 9 6 15 7 21"/>
+    </g>
+    <g fill="none" stroke-linecap="round" stroke="#6f4c9b" stroke-width="17">
+      <path d="M100 130v19"/>
+    </g>
+    <path d="M100 24c38 0 60 28 60 64 0 30-24 48-60 48s-60-18-60-48c0-36 22-64 60-64z" fill="url(#mantle)"/>
+    <ellipse cx="100" cy="104" rx="48" ry="32" fill="url(#belly)"/>
+    <path d="M52 74c4-18 15-33 30-39" fill="none" stroke="#ffe6bd" stroke-opacity="0.3" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M150 82c0-13-4-25-11-34" fill="none" stroke="#ffd9a0" stroke-opacity="0.16" stroke-width="4" stroke-linecap="round"/>
+    
+  <g opacity="1">
+    <ellipse cx="58" cy="104" rx="11" ry="7" fill="url(#blush)"/>
+    <ellipse cx="142" cy="104" rx="11" ry="7" fill="url(#blush)"/>
+  </g>
+  <g>
+    <ellipse cx="80" cy="86" rx="17.0" ry="19.0" fill="#fdf8ef"/>
+    <ellipse cx="120" cy="86" rx="17.0" ry="19.0" fill="#fdf8ef"/>
+    <ellipse cx="83" cy="89" rx="9.0" ry="10.5" fill="#2b1e33"/>
+    <ellipse cx="123" cy="89" rx="9.0" ry="10.5" fill="#2b1e33"/>
+    <circle cx="79" cy="83" r="3.6" fill="#fff"/>
+    <circle cx="119" cy="83" r="3.6" fill="#fff"/>
+    <circle cx="87" cy="95" r="1.8" fill="#fff" fill-opacity="0.8"/>
+    <circle cx="127" cy="95" r="1.8" fill="#fff" fill-opacity="0.8"/>
+  </g>
+    <path d="M91 111c4 6 14 6 18 0" fill="none" stroke="#2b1e33" stroke-width="3.2" stroke-linecap="round"/>
+  </g>
+  </g>
+</svg>

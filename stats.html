@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Letterbind · Stats</title>
+<style>
+  :root { --paper: #f3e9d8; --paper-dark: #e6d6bd; --ink: #2b2118; --ink-soft: #6b5a48; --accent: #8b4a2b; --good: #3f7a4a; --bad: #a83f2e; }
+  * { box-sizing: border-box; }
+  /* .st-form is display:flex, which otherwise beats the UA rule for [hidden]. */
+  [hidden] { display: none !important; }
+  body { font-family: Georgia, 'Times New Roman', serif; background: var(--paper); color: var(--ink); margin: 0; padding: 1.25rem 1rem 3rem; line-height: 1.45; }
+  main { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+  h1 { font-size: 1.3rem; margin: 0; }
+  p { margin: 0; }
+  .muted { color: var(--ink-soft); font-size: 0.85rem; }
+  .st-form { display: flex; gap: 0.5rem; }
+  .st-form input { flex: 1; min-width: 0; min-height: 44px; padding: 0 0.7rem; border: 2px solid var(--paper-dark); border-radius: 10px; font: inherit; background: #fff; }
+  button { font: inherit; color: var(--accent); background: transparent; min-height: 44px; padding: 0 0.9rem; border: 2px solid var(--accent); border-radius: 10px; cursor: pointer; }
+  button.st-go { background: var(--accent); color: #fff; }
+  .st-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .st-gate { background: #fffaf0; border: 2px solid var(--paper-dark); border-radius: 12px; padding: 0.75rem 0.6rem; text-align: center; }
+  .st-gate .st-label { font-size: 0.75rem; color: var(--ink-soft); display: block; }
+  .st-gate .st-value { font-size: 1.7rem; font-weight: bold; display: block; margin: 0.15rem 0; }
+  .st-gate .st-target { font-size: 0.7rem; color: var(--ink-soft); }
+  .st-gate.pass { border-color: var(--good); }
+  .st-gate.pass .st-value { color: var(--good); }
+  .st-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+  th, td { padding: 0.35rem 0.4rem; text-align: right; border-bottom: 1px solid var(--paper-dark); white-space: nowrap; }
+  th { font-size: 0.72rem; color: var(--ink-soft); font-weight: normal; }
+  th:first-child, td:first-child { text-align: left; }
+  tbody tr:last-child td { font-weight: bold; background: #fffaf0; }
+  .st-err { color: var(--bad); }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>📊 Letterbind · activity</h1>
+  <p class="muted">Owner view. The key lives on this device only; it is never in the repo.</p>
+
+  <form class="st-form" id="st-form" hidden>
+    <input id="st-key" type="password" placeholder="Stats key" autocomplete="off" spellcheck="false" />
+    <button type="submit" class="st-go">Show</button>
+  </form>
+
+  <p id="st-msg" class="muted">Loading…</p>
+
+  <div id="st-out" hidden>
+    <div class="st-gates">
+      <div class="st-gate" id="st-gate-return">
+        <span class="st-label">Next-day return</span>
+        <span class="st-value" id="st-return">—</span>
+        <span class="st-target">gate: 33%</span>
+      </div>
+      <div class="st-gate" id="st-gate-active">
+        <span class="st-label">Active devices / day</span>
+        <span class="st-value" id="st-active">—</span>
+        <span class="st-target">gate: 200</span>
+      </div>
+    </div>
+    <p class="muted" id="st-totals" style="margin-top:0.75rem"></p>
+    <div class="st-scroll" style="margin-top:0.5rem">
+      <table>
+        <thead>
+          <tr><th>Day</th><th>Active</th><th>New</th><th>Back</th><th>Return</th><th>Results</th></tr>
+        </thead>
+        <tbody id="st-rows"></tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:0.75rem">
+      <b>Active</b> = devices that opened the game that day. <b>New</b> = first ever seen that day.
+      <b>Back</b> = of yesterday's devices, how many returned. <b>Return</b> = that as a share.
+      The two gate numbers pool the whole window (return) and average the last 7 days (active).
+    </p>
+    <p style="margin-top:0.75rem"><button type="button" id="st-forget">Forget the key on this device</button></p>
+  </div>
+
+  <p class="muted"><a href="/">← Back to the game</a></p>
+</main>
+<script>
+  var API = 'https://api.letterbind.com';
+  var STORE = 'letterbind-stats-key-v1';
+  var form = document.getElementById('st-form');
+  var input = document.getElementById('st-key');
+  var msg = document.getElementById('st-msg');
+  var out = document.getElementById('st-out');
+
+  function readKey() { try { return localStorage.getItem(STORE) || ''; } catch (e) { return ''; } }
+  function saveKey(k) { try { localStorage.setItem(STORE, k); } catch (e) {} }
+  function dropKey() { try { localStorage.removeItem(STORE); } catch (e) {} }
+
+  function ask(text) {
+    msg.textContent = text || '';
+    msg.className = text ? 'st-err' : 'muted';
+    form.hidden = false;
+    out.hidden = true;
+    input.focus();
+  }
+
+  function pct(n) { return (n * 100).toFixed(0) + '%'; }
+
+  function render(data) {
+    form.hidden = true;
+    msg.hidden = true;
+    out.hidden = false;
+    var g = data.gates || { returnShare: 0, active: 0 };
+    document.getElementById('st-return').textContent = pct(g.returnShare);
+    document.getElementById('st-active').textContent = g.active.toFixed(g.active < 10 ? 1 : 0);
+    document.getElementById('st-gate-return').className = 'st-gate' + (g.returnShare >= 0.33 ? ' pass' : '');
+    document.getElementById('st-gate-active').className = 'st-gate' + (g.active >= 200 ? ' pass' : '');
+    document.getElementById('st-totals').textContent =
+      data.devicesEver + ' devices ever · ' + data.pingsEver + ' day-opens recorded · server day ' + data.today;
+    var body = document.getElementById('st-rows');
+    body.textContent = '';
+    (data.days || []).forEach(function (d) {
+      var tr = document.createElement('tr');
+      [d.date.slice(5), d.active, d.fresh, d.base ? d.returned + '/' + d.base : '—', d.base ? pct(d.returning) : '—', d.submissions].forEach(function (v) {
+        var td = document.createElement('td');
+        td.textContent = String(v);
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+
+  function load(key) {
+    msg.hidden = false;
+    msg.className = 'muted';
+    msg.textContent = 'Loading…';
+    fetch(API + '/stats?days=14&key=' + encodeURIComponent(key))
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
+      .then(function (r) {
+        if (r.ok) { saveKey(key); render(r.body); return; }
+        dropKey();
+        ask(r.status === 401 ? 'That key was not accepted.' : (r.body && r.body.error) || ('HTTP ' + r.status));
+      })
+      .catch(function () { ask('No connection to the API.'); });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var k = input.value.trim();
+    if (k) load(k);
+  });
+  document.getElementById('st-forget').addEventListener('click', function () {
+    dropKey();
+    input.value = '';
+    ask('Key forgotten.');
+  });
+
+  var saved = readKey();
+  if (saved) load(saved); else ask('');
+</script>
+</body>
+</html>

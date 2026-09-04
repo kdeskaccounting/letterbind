@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" data-theme="study">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Letterbind" />
+    <meta name="theme-color" content="#150d09" />
+    <meta name="description" content="Letterbind — a cozy word-chain roguelike. Chain letters, beat the target, pick an upgrade, repeat. New daily puzzle every day." />
+
+    <!-- Open Graph (Facebook, Messenger, LinkedIn, Slack, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Letterbind" />
+    <meta property="og:url" content="https://letterbind.com/" />
+    <meta property="og:title" content="Letterbind — a cozy daily word puzzle" />
+    <meta property="og:description" content="Chain letters, beat the target, pick an upgrade, repeat. A new daily puzzle every day, with a leaderboard for you and your friends." />
+    <meta property="og:image" content="https://letterbind.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Letterbind — a cozy daily word puzzle" />
+    <meta name="twitter:description" content="Chain letters, beat the target, pick an upgrade, repeat. A new daily puzzle every day." />
+    <meta name="twitter:image" content="https://letterbind.com/og-image.png" />
+
+    <link rel="canonical" href="https://letterbind.com/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <title>Letterbind — a free daily word-chain puzzle</title>
+
+    <!-- What the game is, in the vocabulary a search engine has. Keep it true to the
+         #about section below: the two are the same claim, one for a machine and one for
+         a person who arrived with JavaScript switched off. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["VideoGame", "WebApplication"],
+        "name": "Letterbind",
+        "url": "https://letterbind.com/",
+        "description": "A free daily word game: a word-chain roguelike on a Boggle-style grid. Drag a path through touching letters, beat the round's target, pick an upgrade, and see how far the run goes. A new daily puzzle every day, a timed Blitz board, unlimited free play, and a leaderboard for you and your friends. No accounts, no downloads.",
+        "applicationCategory": "GameApplication",
+        "applicationSubCategory": "Word game",
+        "genre": ["Word game", "Puzzle", "Roguelike"],
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "image": "https://letterbind.com/og-image.png",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Stephen Michels"
+        }
+      }
+    </script>
+    <!-- The walnut is painted before any stylesheet arrives, so the first frame is never white. -->
+    <style>
+      html { background: #150d09; }
+    </style>
+    <script type="module" crossorigin src="/assets/index-C_BORJPw.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Bo76XfP2.css">
+  </head>
+  <body>
+    <!-- The candlelit study, behind everything and fixed to the viewport: walnut, a wall of
+         book spines, the candle's glow, a vignette, and a few embers that drift. Static
+         markup so it paints before React boots and never re-renders with the game. -->
+    <div class="backdrop" aria-hidden="true">
+      <div class="bd bd-wood"></div>
+      <div class="bd bd-shelf"></div>
+      <div class="bd bd-glow"></div>
+      <div class="bd bd-vignette"></div>
+      <div class="bd bd-embers">
+        <i class="ember e1"></i><i class="ember e2"></i><i class="ember e3"></i><i class="ember e4"></i>
+        <i class="ember e5"></i><i class="ember e6"></i><i class="ember e7"></i><i class="ember e8"></i>
+      </div>
+    </div>
+    <div id="root"></div>
+
+    <!-- The only prose on this page a crawler can read: the app itself is drawn by
+         React, and a search engine that does not run scripts would otherwise find an
+         empty div. `main.tsx` sets `hidden` on it the moment React mounts, so a player
+         never sees it and a visitor with JavaScript off still learns what this is. Keep
+         it in step with the JSON-LD description above. -->
+    <section id="about">
+      <h1>Letterbind — a free daily word-chain puzzle</h1>
+      <p>
+        Letterbind is a free daily word game: a word-chain roguelike played on a Boggle-style grid.
+      </p>
+      <p>
+        To play, drag a path through touching letters to spell a word. Beat the round's target score before the ink runs out. Clear the round,
+        pick an upgrade that bends the rules in your favour, and carry on until a round beats you.
+      </p>
+      <p>
+        Everyone gets the same daily puzzle, a timed Blitz board and unlimited free play, with a leaderboard for you and your friends. No
+        accounts, no downloads, no cost — it runs in a phone browser at <a href="https://letterbind.com/">letterbind.com</a>.
+      </p>
+      <noscript><p><b>Letterbind needs JavaScript to play.</b> Switch it on and reload, and the shop opens.</p></noscript>
+    </section>
+
+  </body>
+</html>

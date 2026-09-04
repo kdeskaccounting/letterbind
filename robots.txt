@@ -1,0 +1,8 @@
+# Letterbind — everything here is meant to be found.
+# The share pages are not: they live on api.letterbind.com and carry their own
+# <meta name="robots" content="noindex">, so thousands of one-off result URLs
+# never turn into thousands of search results.
+User-agent: *
+Allow: /
+
+Sitemap: https://letterbind.com/sitemap.xml
